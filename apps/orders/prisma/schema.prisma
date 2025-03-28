@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../../node_modules/.prisma/client" // para que o prisma gere o client na raiz do projeto assim evitando problemas de tipagem
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id        String      @id @default(uuid()) 
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+  name      String
+  price     Int
+  status    OrderStatus
+  clientId  String      @map("client_id")
+}
+
+enum OrderStatus {
+  PENDING
+  PAYED
+  CANCELLED
+}
